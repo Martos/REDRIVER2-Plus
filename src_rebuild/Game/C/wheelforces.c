@@ -35,6 +35,8 @@ HANDLING_TYPE handlingType[7] =
 	{ 29, 0, 0, 0 }
 };
 
+int car_speed = 0;
+
 // [D] [T]
 void StepCars(void)
 {
@@ -569,6 +571,8 @@ void StepOneCar(CAR_DATA* cp)
 		speed = a + b / 2;
 
 	cp->hd.speed = speed;
+
+	car_speed = active_car_list[0]->hd.speed;
 
 	car_cos = cp->ap.carCos;
 	lift = 0;

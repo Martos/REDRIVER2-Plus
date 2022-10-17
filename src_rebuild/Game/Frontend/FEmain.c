@@ -42,7 +42,7 @@ struct PSXSCREEN
 	PSXBUTTON buttons[8];
 };
 
-// #define USE_EMBEDDED_FRONTEND_SCREENS
+#define USE_EMBEDDED_FRONTEND_SCREENS
 
 enum FEButtonAction
 {

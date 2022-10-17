@@ -15,6 +15,8 @@
 #include "camera.h"
 #include "felony.h"
 #include "scores.h"
+#include "wheelforces.h"
+#include "sound.h"
 
 COLOUR_BAND felonyColour[3] =
 {
@@ -533,7 +535,8 @@ void UpdateFlashValue(void)
 	
 	OverlayFlashValue = flash;
 }
-
+float totalDistance = 0;
+float hours = 0;
 // [D] [T]
 void DrawDrivingGameOverlays(void)
 {
@@ -547,6 +550,40 @@ void DrawDrivingGameOverlays(void)
 
 	switch (GameType) 
 	{
+		case GAME_TAKEADRIVE:
+			//sprintf(string, "Damage: %hu", &car_data[player[0].playerCarId].totalDamage);
+			sprintf(string, "Damage: %hu", PlayerDamageBar.position);
+			PrintString(string, 0, 60);
+
+			sprintf(string, "Felony: %hu", FelonyBar.position);
+			PrintString(string, 0, 70);
+
+			sprintf(string, "Frame: %d", FrameCnt);
+			PrintString(string, 0, 80);
+
+			sprintf(string, "GameOver: %d", game_over);
+			PrintString(string, 0, 90);
+
+			sprintf(string, "Seconds: %d", FrameCnt/30);
+			PrintString(string, 0, 100);
+
+			sprintf(string, "Paused: %d", music_paused);
+			PrintString(string, 0, 110);
+
+			if (music_paused == 0)
+				hours = (float)(((1) / static_cast <double>(60)) / static_cast <double>(60));
+			else
+				hours = 0;
+
+			totalDistance += (float)((float)car_speed * hours)/100;
+			sprintf(string, "Distance KM: %.2f", totalDistance);
+			PrintString(string, 0, 120);
+
+			printWarning("Hours %.4f Distance: %.2f \n", (float)hours, (float)totalDistance);
+
+			sprintf(string, "%hu Km/h", car_speed);
+			PrintString(string, 290, 224);
+		break;
 		case GAME_GETAWAY:
 			table = &ScoreTables.GetawayTable[GameLevel][gSubGameNumber][0];
 
